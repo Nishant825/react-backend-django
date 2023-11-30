@@ -1,0 +1,347 @@
+body {
+  background-color: azure;
+  overflow-y: scroll;
+}
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.choose {
+  width: 100%;
+  height: 40px;
+}
+
+.fa {
+  margin-right: 20px;
+  font-size: 30px;
+  color: gray;
+  float: right;
+}
+
+.book {
+  display: inline-block;
+  border-radius: 8px;
+  width: 250px;
+  height: 490px;
+  box-shadow: 0 0 20px #aaa;
+  margin: 25px;
+  padding: 10px 10px 0 10px;
+  vertical-align: top;
+  transition: height 1s;
+}
+
+.cover {
+  border: 2px solid gray;
+  height: 300px;
+  overflow: hidden;
+}
+
+.cover img {
+  width: 100%;
+}
+
+.book p {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.author {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  font-size: 22px;
+}
+
+.other p {
+  margin: 8px 0px;
+  font-size: 18px;
+}
+
+h1 {
+  color: gray;
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: -3px;
+}
+
+#list-th {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+#list-th:target .book {
+  height: 100px;
+  width: 250px;
+  padding: 10px;
+  margin: 25px auto 25px auto;
+}
+
+#list-th:target .cover {
+  width: 246px;
+}
+
+#list-th:target img {
+  opacity: 0.1;
+}
+
+#list-th:target p {
+  margin-top: -62px;
+  margin-left: 20px;
+}
+
+
+#large-th:target .book {
+  height: 390px;
+}
+
+nav {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 8vh;
+  background-color: teal;
+  font-family: "Montserrat", sans-serif;
+}
+
+.heading {
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-size: 18px;
+  margin-left: 50px;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-links li {
+  justify-content: space-around;
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  letter-spacing: 3px;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 14px 16px;
+  margin: 2px;
+}
+
+.assign {
+  color: white;
+  user-select: none;
+  background-color: #008cba;
+  text-decoration: none;
+  letter-spacing: 3px;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  border: none;
+  padding: 15px 30px;
+  text-align: center;
+  width: 131px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 28px;
+  margin-top: 10px;
+  border-radius: 25px;
+}
+
+.nav-links li a.active {
+  background-color: #3498db;
+  border-radius: 5px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  top: 30px;
+  display: none;
+  position: absolute;
+  background-color: #008080;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+.button {
+  background-color: #008cba;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 45px;
+  margin-top: inherit;
+}
+
+nav div.avatar {
+  width: 50px;
+  height: 50px;
+  background-color: #3498db;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  margin-right: 20px;
+}
+
+.book_wrap {
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 25px;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  gap: 180px;
+  border-radius: 5px;
+  background-color: teal;
+}
+
+.book_wrap form {
+  margin-top: 20px;
+  margin: 40px;
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.cover_img {
+  height: 100%;
+  margin: 10px;
+}
+
+.form_container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.book_wrap form span {
+  margin: 0px;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+}
+
+.book_ttl {
+  font-size: 100px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.author_ttl {
+  font-size: 10px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.book_wrap form input[type="text"],
+input[type="date"] {
+  width: 85%;
+  padding: 10px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  border: none;
+}
+
+.book_wrap form input[type="text"],
+input[type="date"]:focus {
+  outline: none;
+}
+
+.book_wrap form input[type="submit"] {
+  width: 55%;
+  padding: 10px;
+  margin-bottom: 15px;
+  margin-top: 20px;
+  background-color: #3498db;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+}
+
+.text_label {
+  color: white;
+}
+
+.suggestions {
+  position: absolute;
+  top: 172px;
+  width: 335px;
+  font-size: 18px;
+  background-color: silver;
+  left: 18px;
+  border-top: none;
+  border-radius: 5px;
+  display: none;
+}
+
+.suggestion-item {
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f5f5f5;
+}
+
+.list_li_type {
+  padding: 5px;
+  list-style: none;
+}
+.list_li_type:hover {
+  color: #3498db;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.cover_img img {
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+}

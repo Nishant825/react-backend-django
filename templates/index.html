@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block urlHomeActive %}active{% endblock urlHomeActive %}
+{% block content %}
+<div id="large-th">
+  <div class="container">
+    <br>
+    <div id="list-th">
+      {% for book in books %}
+      <div class="book read">
+        <div class="cover">
+          <img src="{{book.cover_img.url}}">
+        </div>
+        <div class="description">
+          <p class="title">{{book.title}}<br>
+          </p>
+          <!-- <p class="author">{{book.author}}</p> -->
+          <div class="author">
+            <span class="author">{{book.author}}</span>
+          </div>
+        </div>
+        <div class="other">
+          <p>Available: {{book.availability_status}}</p>
+        </div>
+        {% if book.availability_status == "no" %}
+        <a  style="background-color:lightgrey"; class="assign trigger">Assigned</a>
+        {% else %}
+        <a  href="{% url 'assign_book' book.id%}" class="assign trigger">Assign Book</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+</body>
+
+</html>

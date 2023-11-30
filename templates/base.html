@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>homepage</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/books.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/book_issued.css' %}" />
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{% static 'images/favicon/favicon.ico' %}"
+    />
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+  </head>
+
+  <body>
+    <nav>
+      <div class="heading">
+        <h4>Daydream Library</h4>
+      </div>
+
+      <ul class="nav-links">
+        <li>
+          <a
+            class="{% block urlHomeActive %}{% endblock urlHomeActive %}"
+            href="{% url 'home' %}"
+            >Home</a
+          >
+        </li>
+
+        <li>
+          <a
+            class="{% block urlBookActive %}{% endblock urlBookActive %}"
+            href="{% url 'issued_books' %}"
+            >BooksIssued</a
+          >
+        </li>
+
+        <li>
+          <a
+            class="{% block urlBookHistoryActive %}{% endblock urlBookHistoryActive %}"
+            href="{% url 'issued_borrow_history' %}"
+            >BooksIssuedHistory</a>
+        </li>
+        <!-- <li><a href="pages/about.html">Genre</a></li>
+         -->
+        <!-- <li>Genre</li> -->
+        <div class="dropdown">
+          <li><a href="javascript:void(0);">Genre</a></li>
+          <!-- <button class="dropbtn">Genre</button> -->
+          <div class="dropdown-content">
+            <a href="/action" class="filter-books" data-filter="action"
+              >Action</a
+            >
+            <a href="/horror" class="filter-books" data-filter="horror"
+              >Horror</a
+            >
+            <a href="/thriller" class="filter-books" data-filter="thriller"
+              >Thriller</a
+            >
+          </div>
+        </div>
+        {% csrf_token %} {% if request.user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'signup' %}">Signup</a></li>
+        {% endif %}
+      
+      {% if request.user.is_authenticated %}
+      <li>
+        <div class="avatar">
+          <span class="avatar-letter"
+            >{{ request.user.username|first|upper }}</span
+          >
+        </div>
+      </li>
+    </ul>
+      {% endif %}
+    </nav>
+
+    {% block content %}{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var book_list_obj = {{ user_list_obj|safe }}
+        $(document).on('keyup', '.list_value', function () {
+          let value = $(this).val();
+          console.log(book_list_obj);
+          if (value.length > 2) {
+            var findsearch = book_list_obj.filter(function(book) {
+              return book.first_name.toLowerCase().includes(value.toLowerCase());
+            });
+          console.log(findsearch, "OKAY");
+
+
+            let html = '';
+
+            if (findsearch.length > 0) {
+
+              for (let i = 0; i < findsearch.length; i++) {
+                html += `<li class="bg-light list_li_type" id="${findsearch[i].id}" data-value="${findsearch[i]}"
+                  data-desc="${findsearch[i]}">ID- ${findsearch[i].id} &nbsp;&nbsp; ${findsearch[i].first_name} ${findsearch[i].last_name} </li>`;
+              }
+              $("#suggestions").html(html);
+              $("#suggestions").css("display", "block");
+            }
+          } else {
+            $("#suggestions").css("display", "none");
+          }
+        });
+
+        $(document).on('click', '.list_li_type', function () {
+          let value = $(this).text().split(' ').slice(2).join(' ').trim();
+          let user_id = $(this).attr('id')
+          $(".list_value").val(value);
+          $("#user_id").val(user_id);
+          $("#suggestions").css("display", "none");
+        });
+
+
+        $(document).on('click', '.return-btn', function () {
+          var row = $(this).closest('tr');
+          issed_book_id = row.attr('id')
+          let book_borrow_id = $(this).attr("data-id");
+          let rows = $(this).closest('table').find('tr');
+          var numberOfRows = rows.length;
+          if (numberOfRows>2){
+            row.remove();
+          } else{
+            rows.remove()
+            $('tbody').append("<h2 style='text-align:center;'>No books Found</h2>")
+          }
+          row.remove();
+          var return_btn_value = "yes"
+          var title = row.find('td:eq(1)').attr('id')
+          var due_date = row.find('td:eq(2)').text()
+          var name = row.find('td:eq(3)').attr('id')
+          console.log(title, due_date, name)
+          var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+          $.ajax({
+            type: 'POST',
+              url: "{% url 'return_books' %}",
+              data: {"issed_book_id":issed_book_id, "return_btn_value":return_btn_value,"due_date":due_date, "book_value":title,"user":name},
+              beforeSend: function (xhr){
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+              },
+              success: function (response) {
+              }
+    })
+  })
+
+
+        // calculate due_date time daily
+
+      
+        $('tr.book_data').each(function() {
+                var row = $(this);
+    
+                var due_date = row.find('.date-style').text();
+                var due_date = due_date.split("-");
+                var due_day = parseInt(due_date[0]);
+                var due_month = parseInt(due_date[1]);
+                var due_year = parseInt(due_date[2]);
+                var due_date = new Date(due_year, due_month-1, due_day);
+
+                var currentDate = new Date();
+                var currentday = currentDate.getDate();
+                var currentmonth = currentDate.getMonth() + 1;
+                var currentyear = currentDate.getFullYear();
+                var current_date = new Date(currentyear, currentmonth-1, currentday)
+                var timeDifference = due_date - current_date;
+                var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+                if (daysDifference<=0){
+                  row.find('.date-style').css("color", "red")
+                }
+        });
+
+        
+      $('.Checkbox').on('click', function () {
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+        var book_id = $(this).attr("data-id")
+        
+        if ($(this).is(':checked')) {
+          var fine_val = $(this).closest('tr').find("#fine_val").text();
+          var paid = 1;
+        }else{
+          var paid = 0;
+          var fine_val = 0
+        }
+
+          $.ajax({
+            type: 'POST',
+              url: "{% url 'fine_paid' %}",
+              data: {"book_id":book_id, "paid":paid, "fine_val":fine_val},
+              beforeSend: function (xhr){
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+              },
+              success: function (response) {
+              }
+            })
+      });
+    
+    </script>
+  </body>
+</html>

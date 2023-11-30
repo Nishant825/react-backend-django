@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block urlBookActive %}
+active
+{% endblock urlBookActive %} 
+{% block content %}
+{% load humanize %}
+<!-- {% load custom_filters %} -->
+{% if books %}
+<table class="custom-table">
+  {% csrf_token %}
+  <tr>
+    <th>Book Image</th>
+    <th>Book</th>
+    <th>Due Date</th>
+    <th>Name</th>
+    <th>Returned</th>
+  </tr>
+  {% for book in books %}
+  <tr id= "{{book.id}}" class="book_data">
+    <td ><img src="{{book.book.cover_img.url}}" alt="" /></td>
+    <td id={{book.book.id}}>{{book.book.title}}</td>
+    <td class="date-style" id="due_date">{{book.due_date | date:"d-m-Y"}}</td>
+    <td id={{book.user.id}}>{{book.format_name}}</td>
+    <td><input class="return-btn"  data-id="{{book.id}}" type="button" value="Yes"></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<h1>No Records Found</h1>
+{% endif %}
+{% endblock %}

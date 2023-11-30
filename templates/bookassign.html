@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="book-container">
+    <div class="book_wrap">
+        <div class="cover_img">
+            <img src="{{books.cover_img.url}}" alt="">
+        </div>
+        <div class="form_container">
+            <form action="" method="post">
+                {% csrf_token %}
+                <span class="text_label book_ttl" >Book Name: </span><span class="text_label">{{books.title}}</span><br>
+                <input type="hidden" name="title_data" id="static_data_input" value="{{books.title}}">
+                <span class="text_label author_ttl">Author Name: </span><span class="text_label">{{books.author}}</span><br><br><br>
+                <span class="text_label"> Member Name</span>
+                <input type="hidden" value="" id="user_id" name="user_id">
+                <input class="list_value" name="username" type="text" autocomplete="off"><br>
+                <div class="suggestions" id="suggestions">
+                </div>
+                <span class="text_label"> Return Date</span>
+                <input type="date" name="due_date" value="2023-08-27"><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
